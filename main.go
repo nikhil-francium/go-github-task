@@ -1,6 +1,8 @@
 package main
 
 import (
+	"net/http"
+
 	"github.com/joho/godotenv"
 )
 
@@ -10,7 +12,9 @@ func main() {
 
 	godotenv.Load()
 
-	commitsDayWiseCountMap := calculateCommitDayCount(weeks, repo)
+	client := &http.Client{}
+
+	commitsDayWiseCountMap := calculateCommitDayCount(weeks, repo, client)
 
 	commitsDayWiseCountMap.sortDetails(sortOrder)
 

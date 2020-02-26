@@ -37,11 +37,10 @@ func getGithubRequestURL(repo string, previousTime time.Time, currentTime time.T
 
 }
 
-func getCommits(url string) *http.Response {
+func getCommits(url string, client *http.Client) *http.Response {
 	var bearer = "Bearer " + os.Getenv("GITHUB_API_KEY")
 	req, _ := http.NewRequest("GET", url, nil)
 	req.Header.Add("Authorization", bearer)
-	client := &http.Client{}
 	res, _ := client.Do(req)
 	return res
 }
@@ -74,7 +73,7 @@ func (cm commitMap) incrementDayCount(commitDate string) {
 	cm[ti.Weekday().String()]++
 }
 
-func calculateCommitDayCount(weeks int, repo string) commitMap {
+func calculateCommitDayCount(weeks int, repo string, client *http.Client) commitMap {
 
 	var url string
 	var res *http.Response
@@ -92,7 +91,7 @@ func calculateCommitDayCount(weeks int, repo string) commitMap {
 				break
 			}
 		}
-		res = getCommits(url)
+		res = getCommits(url, client)
 		linkHeaders = res.Header.Get("Link")
 		data := getGithubCommits(res)
 

@@ -12,7 +12,7 @@ func getInputs() (int, string, string) {
 	var repo string
 	flag.StringVar(&repo, "repo", "", "repo details")
 	var sort string
-	flag.StringVar(&sort,"sort","","commit count sort daywise")
+	flag.StringVar(&sort, "sort", "", "commit count sort daywise")
 
 	flag.Parse()
 
