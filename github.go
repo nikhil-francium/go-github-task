@@ -150,10 +150,35 @@ func (cm commitMap) sortDetails(sortOrder string) {
 		sort.Ints(keysList)
 	}
 
+	keysList = removeDuplicates(keysList)
+
 	for _, key := range keysList {
 		for _, val := range countMap[key] {
 			fmt.Println(fmt.Sprintf("%s : %s", val, strconv.Itoa(key)))
 		}
 	}
 
+}
+
+func removeDuplicates(values []int) []int {
+	result := []int{}
+	isPresent := false
+	for _, val := range values {
+		if len(result) == 0 {
+			result = append(result, val)
+		} else {
+			for _, item := range result {
+				if item == val {
+					isPresent = true
+					break
+				}
+			}
+			if isPresent == false {
+				result = append(result, val)
+			}
+		}
+		isPresent = false
+	}
+
+	return result
 }
